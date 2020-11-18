@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,13 +41,13 @@ public class Calculos1 {
 	double nombre = 0;
 	boolean operatorPerced = false;
 	boolean OnOffaction = false;
+	double[] tb = new double[1];
 
-	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -71,7 +74,7 @@ public class Calculos1 {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		
+
 		frame.setAlwaysOnTop(true);
 		frame.setBounds(100, 100, 364, 403);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,9 +94,11 @@ public class Calculos1 {
 		textField.setOpaque(true);
 		panel.add(textField);
 		textField.setColumns(10);
-		
 
-		
+		/**
+		 * Field bottom 1-9 and .
+		 */
+
 		JButton btn0 = new JButton("0");
 		btn0.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btn0.addActionListener(new ActionListener() {
@@ -114,7 +119,6 @@ public class Calculos1 {
 		btn0.setBorder(brdrLeft0);
 		btn0.setOpaque(true);
 		panel.add(btn0);
-	
 
 		JButton btn1 = new JButton("1");
 		btn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -305,9 +309,11 @@ public class Calculos1 {
 		btnPoint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String title = btnPoint.getText();
-
-					btnPoint.setText(title);
+					if (operatorPerced) {
+						textField.setText("");
+						operatorPerced = false;
+					}
+					String title = textField.getText() + btnPoint.getText();
 					textField.setText(title);
 
 				}
@@ -317,7 +323,9 @@ public class Calculos1 {
 		btnPoint.setBorder(brdrLeft0);
 		btnPoint.setOpaque(true);
 		panel.add(btnPoint);
-
+		/**
+		 * Methods operator bottom
+		 */
 		JButton btnPlus = new JButton("+");
 		btnPlus.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnPlus.addActionListener(new ActionListener() {
@@ -375,7 +383,7 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					String newSigne = "\u00F7";
-
+					 roundResult();
 					calcul(newSigne);
 					operatorPerced = true;
 
@@ -392,9 +400,10 @@ public class Calculos1 {
 		btnRacine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String newSigne = "\u221A";
-					calcul(newSigne);
-					calcul("");
+					double nombre = Math.sqrt(Double.parseDouble(textField.getText()));
+					
+					textField.setText("" + nombre);
+				
 					operatorPerced = true;
 
 				}
@@ -410,9 +419,9 @@ public class Calculos1 {
 		btnPosNeg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String newSigne = "+/-";
-					calcul(newSigne);
-					calcul("");
+					double nombre = -Double.parseDouble(textField.getText());
+
+					textField.setText("" + nombre);
 					operatorPerced = true;
 				}
 			}
@@ -427,9 +436,10 @@ public class Calculos1 {
 		btnPourcent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String newSigne = "%";
-					calcul(newSigne);
-					calcul("");
+					double pourcent = ((Double.parseDouble(textField.getText()))) / 100;
+
+					textField.setText("" + pourcent);
+
 					operatorPerced = true;
 
 				}
@@ -439,7 +449,9 @@ public class Calculos1 {
 		btnPourcent.setBorder(brdrLeft0);
 		btnPourcent.setOpaque(true);
 		panel.add(btnPourcent);
-
+		/**
+		 * Clear bottom
+		 */
 		JButton btnCE = new JButton("CE");
 		btnCE.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCE.addActionListener(new ActionListener() {
@@ -469,6 +481,7 @@ public class Calculos1 {
 				}
 				signe = "";
 				textField.setText("");
+				
 				operatorPerced = true;
 
 			}
@@ -481,15 +494,20 @@ public class Calculos1 {
 		btnC.setOpaque(true);
 		panel.add(btnC);
 
+		/**
+		 * Memory bottom
+		 */
+
 		JButton btnMminus = new JButton("M-");
 		btnMminus.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnMminus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String title = btnMminus.getText();
-
-					btnMminus.setText(title);
-					textField.setText(title);
+					if (OnOffaction == true) {
+						tb[0] = tb[0] - Double.parseDouble(textField.getText());
+					
+						operatorPerced = true;
+					}
 
 				}
 			}
@@ -504,10 +522,9 @@ public class Calculos1 {
 		btnMplus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String title = btnMplus.getText();
-
-					btnMplus.setText(title);
-					textField.setText(title);
+					tb[0] = tb[0] + Double.parseDouble(textField.getText());
+				
+					operatorPerced = true;
 
 				}
 			}
@@ -522,9 +539,10 @@ public class Calculos1 {
 		btnMplusValeur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					String title = btnMplusValeur.getText();
-
-					btnMplusValeur.setText(title);
+					nombre = tb[0];
+					textField.setText(roundResult());
+				
+					operatorPerced = true;
 
 				}
 			}
@@ -535,6 +553,10 @@ public class Calculos1 {
 
 		panel.add(btnMplusValeur);
 
+		/**
+		 * bottom for end sequence
+		 */
+
 		JButton btnequals = new JButton("=");
 		btnequals.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnequals.addActionListener(new ActionListener() {
@@ -544,8 +566,8 @@ public class Calculos1 {
 						textField.setText("");
 					} else {
 						calcul("");
+						textField.setText(roundResult());
 						operatorPerced = true;
-						System.out.println("egal");
 
 					}
 				}
@@ -559,7 +581,7 @@ public class Calculos1 {
 		JButton btnNewButton = new JButton("EXIT");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				  System.exit(0);  
+				System.exit(0);
 			}
 		});
 		btnNewButton.setForeground(new Color(255, 255, 255));
@@ -570,6 +592,18 @@ public class Calculos1 {
 		btnNewButton.setBounds(100, 6, 134, 30);
 		panel.add(btnNewButton);
 	}
+
+	public String roundResult() {
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+		DecimalFormat df = new DecimalFormat("#.###", otherSymbols);
+		String resultFormat = df.format(nombre);
+		return resultFormat;
+	}
+
+	/**
+	 * Calcul field
+	 * 
+	 */
 
 	public void calcul(String signe2) {
 
@@ -605,35 +639,31 @@ public class Calculos1 {
 				textField.setText("" + nombre);
 				System.out.println("i2=" + nombre + "");
 			}
-		} else if (signe.equals("\u221A")) {
-			nombre = Math.sqrt(Double.parseDouble(textField.getText()));
-			signe = signe2;
-			textField.setText("" + nombre);
-			System.out.println("i2=" + nombre + "");
-		}
-
-		else if (signe.equals("+/-")) {
+		} else if (signe.equals("+/-")) {
 			nombre = -Double.parseDouble(textField.getText());
 			signe = signe2;
 			textField.setText("" + nombre);
 			System.out.println("i2=" + nombre + "");
 		}
 
-		else if (signe.equals("%")) {
-			nombre = ((Double.parseDouble(textField.getText()))) / 100;
-			signe = signe2;
-			textField.setText("" + nombre);
-			System.out.println("i2=" + nombre + "");
-		}
-
+		
+		roundResult();
 	}
 
+	/**
+	 * 
+	 */
 	public void color() {
 
 		textField.setBackground(Color.CYAN);
 
 	}
 
+	/**
+	 * 
+	 * Method to create around bottom
+	 *
+	 */
 	@SuppressWarnings("serial")
 	class TextBubbleBorder extends AbstractBorder {
 
