@@ -361,7 +361,7 @@ public class Calculos1 {
 		panel.add(btnMoins);
 
 		JButton btnMulti = new JButton("*");
-		btnMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnMulti.setFont(new Font("Tahoma", Font.PLAIN, 20));                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 		btnMulti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
@@ -383,7 +383,7 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					String newSigne = "\u00F7";
-					 roundResult();
+					roundResult();
 					calcul(newSigne);
 					operatorPerced = true;
 
@@ -401,9 +401,9 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					double nombre = Math.sqrt(Double.parseDouble(textField.getText()));
-					
+
 					textField.setText("" + nombre);
-				
+
 					operatorPerced = true;
 
 				}
@@ -481,7 +481,7 @@ public class Calculos1 {
 				}
 				signe = "";
 				textField.setText("");
-				
+
 				operatorPerced = true;
 
 			}
@@ -505,7 +505,7 @@ public class Calculos1 {
 				if (OnOffaction == true) {
 					if (OnOffaction == true) {
 						tb[0] = tb[0] - Double.parseDouble(textField.getText());
-					
+
 						operatorPerced = true;
 					}
 
@@ -523,7 +523,7 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					tb[0] = tb[0] + Double.parseDouble(textField.getText());
-				
+
 					operatorPerced = true;
 
 				}
@@ -539,9 +539,10 @@ public class Calculos1 {
 		btnMplusValeur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
-					nombre = tb[0];
-					textField.setText(roundResult());
 				
+					System.out.println(nombre +"        "+tb[0]);
+					textField.setText(roundResult());
+					nombre=tb[0];
 					operatorPerced = true;
 
 				}
@@ -565,6 +566,12 @@ public class Calculos1 {
 					if ((textField.getText()).equals("")) {
 						textField.setText("");
 					} else {
+						if (signe.equals("\u00F7")) {
+
+							if (Double.parseDouble(textField.getText()) == 0) {
+								textField.setText("Division par 0 : error");
+							}
+						}
 						calcul("");
 						textField.setText(roundResult());
 						operatorPerced = true;
@@ -631,14 +638,11 @@ public class Calculos1 {
 			System.out.println("i2=" + nombre + "");
 
 		} else if (signe.equals("\u00F7")) {
-			if (Double.parseDouble(textField.getText()) == 0) {
-				textField.setText("Division par 0 : impossible");
-			} else {
-				nombre = nombre / Double.parseDouble(textField.getText());
-				signe = signe2;
-				textField.setText("" + nombre);
-				System.out.println("i2=" + nombre + "");
-			}
+			nombre = nombre / Double.parseDouble(textField.getText());
+			signe = signe2;
+			textField.setText("" + nombre);
+			System.out.println("i2=" + nombre + "");
+
 		} else if (signe.equals("+/-")) {
 			nombre = -Double.parseDouble(textField.getText());
 			signe = signe2;
@@ -646,7 +650,6 @@ public class Calculos1 {
 			System.out.println("i2=" + nombre + "");
 		}
 
-		
 		roundResult();
 	}
 
