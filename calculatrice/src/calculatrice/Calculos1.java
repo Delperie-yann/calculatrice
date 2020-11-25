@@ -333,6 +333,7 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					String newSigne = "+";
+					roundResult();
 					calcul(newSigne);
 					operatorPerced = true;
 
@@ -350,6 +351,7 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					String newSigne = "-";
+					roundResult();
 					calcul(newSigne);
 					operatorPerced = true;
 
@@ -367,6 +369,7 @@ public class Calculos1 {
 			public void actionPerformed(ActionEvent e) {
 				if (OnOffaction == true) {
 					String newSigne = "*";
+					roundResult();
 					calcul(newSigne);
 					operatorPerced = true;
 
@@ -503,14 +506,15 @@ public class Calculos1 {
 		btnMminus.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnMminus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (OnOffaction == true) {
+			
 					if (OnOffaction == true) {
 						tb[0] = tb[0] - Double.parseDouble(textField.getText());
-
+						System.out.println(nombre +"        "+tb[0]);
 						operatorPerced = true;
+						
 					}
 
-				}
+				
 			}
 		});
 		btnMminus.setBounds(146, 116, 50, 50);
@@ -542,8 +546,9 @@ public class Calculos1 {
 				if (OnOffaction == true) {
 				
 					System.out.println(nombre +"        "+tb[0]);
-					textField.setText(roundResult());
 					nombre=tb[0];
+					textField.setText(roundResult());
+					
 					operatorPerced = true;
 
 				}
